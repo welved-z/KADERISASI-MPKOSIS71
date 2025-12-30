@@ -1,0 +1,16 @@
+{
+  "name": "sistem-kaderisasi-mpk71",
+  "version": "1.0.0",
+  "description": "Admin tools for bulk-creating Firebase Auth users and starter frontend for Sistem Kaderisasi Digital (MPK OSIS SMAN 71)",
+  "main": "create-users.js",
+  "scripts": {
+    "create-users": "node create-users.js penilai.csv serviceAccount.json",
+    "start": "node create-users.js"
+  },
+  "author": "MPK OSIS SMAN 71",
+  "license": "MIT",
+  "dependencies": {
+    "csv-parse": "^5.3.6",
+    "firebase-admin": "^11.10.0"
+  }
+}
