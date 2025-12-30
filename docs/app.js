@@ -1,21 +1,20 @@
-// docs/app.js (module) - placeholder firebaseConfig; ganti dengan config proyek Anda.
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-import {
-  getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-import {
-  getFirestore, doc, getDoc, runTransaction, collection, query, orderBy, limit, getDocs
-} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+// docs/app.js (ganti header dengan ini — memakai Firebase JS SDK v12.7.0)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, runTransaction, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-/* ========== GANTI dengan firebaseConfig proyek Anda ========== */
+// Konfigurasi proyek Anda (sudah Anda buat)
 const firebaseConfig = {
-  apiKey: "API_KEY",
-  authDomain: "PROJECT_ID.firebaseapp.com",
-  projectId: "PROJECT_ID",
-  // ...
+  apiKey: "AIzaSyBpBvKigAXneoyCl32DTis6HmfKTAJgtI4",
+  authDomain: "kaderisasi-mpkosis71-d9389.firebaseapp.com",
+  projectId: "kaderisasi-mpkosis71-d9389",
+  storageBucket: "kaderisasi-mpkosis71-d9389.firebasestorage.app",
+  messagingSenderId: "1021211133026",
+  appId: "1:1021211133026:web:850dfa2d478a1ddffd7d3b",
+  measurementId: "G-5FVWJE7FQM"
 };
-/* ============================================================ */
 
+// Inisialisasi Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
