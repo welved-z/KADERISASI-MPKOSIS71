@@ -1,0 +1,11 @@
+# Node / admin scripts
+node_modules/
+dist/
+.env
+# Firebase service account (do NOT commit)
+serviceAccount*.json
+# Editor
+.vscode/
+.DS_Store
+# Mac system files
+Thumbs.db
