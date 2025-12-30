@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sistem Kaderisasi Digital — MPK 71</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="app">
+    <!-- Login Card -->
+    <section id="login-screen" class="center-card">
+      <div class="card login-card">
+        <img src="assets/CAS.png" alt="Logo CAS" class="logo-image" />
+        <h1 class="title">Sistem Kaderisasi Digital</h1>
+        <p class="subtitle">Masuk sebagai Pengurus Inti / Admin Evaluasi — Angkatan 27</p>
+
+        <label class="field">
+          <input id="email" type="email" placeholder="Username (contoh: rizki)" />
+        </label>
+        <label class="field">
+          <input id="password" type="password" placeholder="Password" />
+        </label>
+        <button id="btn-login" class="btn primary">Masuk Dashboard</button>
+
+        <div id="login-status" class="status" aria-live="polite"></div>
+        <footer class="card-footer">
+          <img src="assets/Jusat.png" alt="Logo SMAN 71" class="footer-logo" />
+          <div>© 2025 MPK OSIS SMAN 71 Jakarta — CAS</div>
+        </footer>
+      </div>
+    </section>
+
+    <!-- Dashboard (hidden until auth) -->
+    <section id="dashboard-screen" class="hidden">
+      <header class="topbar">
+        <div class="brand">
+          <img src="assets/CAS.png" class="brand-logo" alt="CAS" />
+          <div class="brand-text">
+            <div class="brand-title">SISTEM KADERISASI</div>
+            <div class="brand-sub">Cestadhanasthira Agrasenartha Saka</div>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <a class="nav-link active">Dashboard</a>
+          <a class="nav-link">Rekap Absensi</a>
+          <a class="nav-link">Jurnal Kegiatan</a>
+        </nav>
+
+        <div class="user-area">
+          <span id="user-name">Admin</span>
+          <button id="btn-logout" class="icon-btn" title="Logout">⎋</button>
+        </div>
+      </header>
+
+      <div class="container">
+        <h2>Dashboard Evaluasi Diklat Internal</h2>
+        <p class="muted">Pantau perkembangan kompetensi Angkatan 28 berbasis pengalaman lapangan.</p>
+
+        <div class="cards-row">
+          <div class="stat-card">
+            <div class="stat-title">Kesiapan SDM (Matang)</div>
+            <div class="stat-number">15 <span class="muted small">/ 20 Kader</span></div>
+            <div class="stat-foot">Meningkat pasca LDKS</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Proker Berjalan / Tuntas</div>
+            <div class="stat-number">12 <span class="muted small">Kegiatan</span></div>
+            <div class="stat-foot">3 Proker dalam persiapan</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Database Penilaian Angkatan 28</h3>
+              <div class="muted">Data diperbarui: <span id="updated-at">-</span></div>
+            </div>
+            <div>
+              <button id="btn-open-input" class="btn primary">+ Input Catatan Lapangan</button>
+            </div>
+          </div>
+
+          <!-- Hybrid table / cards -->
+          <div id="list-area">
+            <table class="responsive-table" id="data-table" role="table" aria-label="Data penilaian">
+              <thead>
+                <tr>
+                  <th>Nama Kader</th>
+                  <th>Jabatan / Sekbid</th>
+                  <th>Highlight Keahlian</th>
+                  <th>Observasi Lapangan (Progres)</th>
+                  <th>Status Kelayakan</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="table-body"></tbody>
+            </table>
+
+            <div id="card-list" aria-live="polite"></div>
+          </div>
+
+          <div class="panel-foot">
+            <div id="pager">Menampilkan 0 dari 0 Kader</div>
+            <div>
+              <button id="btn-prev" class="btn light">Prev</button>
+              <button id="btn-next" class="btn light">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal / Drawer untuk input penilaian -->
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-content card">
+        <h3>Input Catatan Lapangan</h3>
+        <label class="field">
+          <input id="input-participant" placeholder="Nama / ID peserta (mis: NIS12345)" />
+        </label>
+
+        <label class="field">
+          <input id="input-jabatan" placeholder="Jabatan / Sekbid (opsional)" />
+        </label>
+
+        <label class="field">
+          <input id="input-tags" placeholder="Tag kompetensi (pisah dengan koma, contoh: Public Speaking, Leadership)" />
+        </label>
+
+        <label class="field">
+          <textarea id="input-journal" rows="5" placeholder="Jurnal naratif: catat perkembangan, contoh tindakan di lapangan..."></textarea>
+        </label>
+
+        <label class="field">
+          <select id="input-status">
+            <option value="Sangat Layak">Sangat Layak</option>
+            <option value="Layak (Dengan Catatan)">Layak (Dengan Catatan)</option>
+            <option value="Butuh Pendampingan">Butuh Pendampingan</option>
+          </select>
+        </label>
+
+        <div class="modal-actions">
+          <button id="btn-submit-assess" class="btn primary">Kirim Penilaian</button>
+          <button id="btn-cancel" class="btn light">Batal</button>
+        </div>
+
+        <div id="modal-status" class="status"></div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
