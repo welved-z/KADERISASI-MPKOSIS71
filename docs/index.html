@@ -1,155 +1,204 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Sistem Kaderisasi Digital — MPK 71</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Kaderisasi Digital - MPK OSIS 71</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        /* Custom Scrollbar for Tags */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
 </head>
-<body>
-  <main id="app">
-    <!-- Login Card -->
-    <section id="login-screen" class="center-card">
-      <div class="card login-card">
-        <img src="assets/CAS.png" alt="Logo CAS" class="logo-image" />
-        <h1 class="title">Sistem Kaderisasi Digital</h1>
-        <p class="subtitle">Masuk sebagai Pengurus Inti / Admin Evaluasi — Angkatan 27</p>
+<body class="text-slate-800">
 
-        <label class="field">
-          <input id="email" type="email" placeholder="Username (contoh: rizki)" />
-        </label>
-        <label class="field">
-          <input id="password" type="password" placeholder="Password" />
-        </label>
-        <button id="btn-login" class="btn primary">Masuk Dashboard</button>
-
-        <div id="login-status" class="status" aria-live="polite"></div>
-        <footer class="card-footer">
-          <img src="assets/Jusat.png" alt="Logo SMAN 71" class="footer-logo" />
-          <div>© 2025 MPK OSIS SMAN 71 Jakarta — CAS</div>
-        </footer>
-      </div>
-    </section>
-
-    <!-- Dashboard (hidden until auth) -->
-    <section id="dashboard-screen" class="hidden">
-      <header class="topbar">
-        <div class="brand">
-          <img src="assets/CAS.png" class="brand-logo" alt="CAS" />
-          <div class="brand-text">
-            <div class="brand-title">SISTEM KADERISASI</div>
-            <div class="brand-sub">Cestadhanasthira Agrasenartha Saka</div>
-          </div>
-        </div>
-
-        <nav class="nav">
-          <a class="nav-link active">Dashboard</a>
-          <a class="nav-link">Rekap Absensi</a>
-          <a class="nav-link">Jurnal Kegiatan</a>
-        </nav>
-
-        <div class="user-area">
-          <span id="user-name">Admin</span>
-          <button id="btn-logout" class="icon-btn" title="Logout">⎋</button>
-        </div>
-      </header>
-
-      <div class="container">
-        <h2>Dashboard Evaluasi Diklat Internal</h2>
-        <p class="muted">Pantau perkembangan kompetensi Angkatan 28 berbasis pengalaman lapangan.</p>
-
-        <div class="cards-row">
-          <div class="stat-card">
-            <div class="stat-title">Kesiapan SDM (Matang)</div>
-            <div class="stat-number">15 <span class="muted small">/ 20 Kader</span></div>
-            <div class="stat-foot">Meningkat pasca LDKS</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-title">Proker Berjalan / Tuntas</div>
-            <div class="stat-number">12 <span class="muted small">Kegiatan</span></div>
-            <div class="stat-foot">3 Proker dalam persiapan</div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head">
-            <div>
-              <h3>Database Penilaian Angkatan 28</h3>
-              <div class="muted">Data diperbarui: <span id="updated-at">-</span></div>
+    <nav class="fixed w-full z-50 top-0 bg-white border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center gap-4">
+                    <div class="h-9 w-9 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-md">
+                        71
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-slate-900 text-sm tracking-tight">Sistem Kaderisasi CAS</span>
+                        <span class="text-[10px] text-slate-500 font-medium uppercase tracking-wider">Evaluasi Kualitatif Angkatan 28</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-semibold text-slate-600 bg-slate-100 px-3 py-1 rounded-full">Admin: Angkatan 27</span>
+                    <button class="text-slate-400 hover:text-red-600 transition"><i class="ph ph-power text-xl"></i></button>
+                </div>
             </div>
-            <div>
-              <button id="btn-open-input" class="btn primary">+ Input Catatan Lapangan</button>
-            </div>
-          </div>
-
-          <!-- Hybrid table / cards -->
-          <div id="list-area">
-            <table class="responsive-table" id="data-table" role="table" aria-label="Data penilaian">
-              <thead>
-                <tr>
-                  <th>Nama Kader</th>
-                  <th>Jabatan / Sekbid</th>
-                  <th>Highlight Keahlian</th>
-                  <th>Observasi Lapangan (Progres)</th>
-                  <th>Status Kelayakan</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody id="table-body"></tbody>
-            </table>
-
-            <div id="card-list" aria-live="polite"></div>
-          </div>
-
-          <div class="panel-foot">
-            <div id="pager">Menampilkan 0 dari 0 Kader</div>
-            <div>
-              <button id="btn-prev" class="btn light">Prev</button>
-              <button id="btn-next" class="btn light">Next</button>
-            </div>
-          </div>
         </div>
-      </div>
-    </section>
+    </nav>
 
-    <!-- Modal / Drawer untuk input penilaian -->
-    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
-      <div class="modal-content card">
-        <h3>Input Catatan Lapangan</h3>
-        <label class="field">
-          <input id="input-participant" placeholder="Nama / ID peserta (mis: NIS12345)" />
-        </label>
-
-        <label class="field">
-          <input id="input-jabatan" placeholder="Jabatan / Sekbid (opsional)" />
-        </label>
-
-        <label class="field">
-          <input id="input-tags" placeholder="Tag kompetensi (pisah dengan koma, contoh: Public Speaking, Leadership)" />
-        </label>
-
-        <label class="field">
-          <textarea id="input-journal" rows="5" placeholder="Jurnal naratif: catat perkembangan, contoh tindakan di lapangan..."></textarea>
-        </label>
-
-        <label class="field">
-          <select id="input-status">
-            <option value="Sangat Layak">Sangat Layak</option>
-            <option value="Layak (Dengan Catatan)">Layak (Dengan Catatan)</option>
-            <option value="Butuh Pendampingan">Butuh Pendampingan</option>
-          </select>
-        </label>
-
-        <div class="modal-actions">
-          <button id="btn-submit-assess" class="btn primary">Kirim Penilaian</button>
-          <button id="btn-cancel" class="btn light">Batal</button>
+    <div class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900">Monitoring Perkembangan Kader</h1>
+                <p class="text-slate-500 text-sm mt-1">Fokus pada observasi lapangan, inisiatif, dan penyelesaian masalah.</p>
+            </div>
+            <div class="flex gap-2">
+                <button class="px-3 py-1.5 bg-white border border-slate-300 rounded-md text-xs font-medium text-slate-600 hover:bg-slate-50 shadow-sm">Semua Kader</button>
+                <button class="px-3 py-1.5 bg-white border border-slate-300 rounded-md text-xs font-medium text-slate-600 hover:bg-slate-50 shadow-sm">Perlu Observasi</button>
+            </div>
         </div>
 
-        <div id="modal-status" class="status"></div>
-      </div>
+        <div class="space-y-4">
+
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition p-5 relative overflow-hidden group">
+                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-emerald-500"></div>
+
+                <div class="flex flex-col md:flex-row gap-6 items-start md:items-center">
+                    
+                    <div class="w-full md:w-1/4 flex items-center gap-4">
+                        <div class="h-12 w-12 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 text-slate-600 font-bold">
+                            AP
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900">Aditya Pratama</h3>
+                            <span class="text-xs font-medium text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">Ketua Sekbid 1</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-2/4 grid grid-cols-1 gap-3">
+                        
+                        <div class="flex flex-wrap gap-2">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium bg-purple-50 text-purple-700 border border-purple-100">
+                                <i class="ph-fill ph-megaphone"></i> Public Speaking Kuat
+                            </span>
+                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium bg-orange-50 text-orange-700 border border-orange-100">
+                                <i class="ph-fill ph-lightning"></i> Eksekutor Cepat
+                            </span>
+                        </div>
+
+                        <div class="text-sm text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-100">
+                            <span class="font-semibold text-slate-800 text-xs uppercase mb-1 block">Track Record:</span>
+                            "Sangat dominan saat memimpin rapat teknis <span class="font-medium text-slate-900">MPLS</span>. Sempat emosional di awal jabatan, namun menunjukkan kedewasaan luar biasa saat menangani kendala vendor di <span class="font-medium text-slate-900">Pensi Sekolah</span>."
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-1/4 flex flex-row md:flex-col items-center md:items-end justify-between gap-2 mt-2 md:mt-0">
+                        <div class="text-right">
+                            <span class="block text-xs text-slate-400 mb-1">Rekomendasi Pelantikan</span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                                <i class="ph-fill ph-check-circle"></i> Sangat Siap
+                            </span>
+                        </div>
+                        <button class="text-sm font-medium text-blue-600 hover:text-blue-800 underline decoration-blue-200 hover:decoration-blue-800 underline-offset-4">
+                            Lihat Jurnal Kegiatan >
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition p-5 relative overflow-hidden">
+                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-amber-400"></div>
+
+                <div class="flex flex-col md:flex-row gap-6 items-start md:items-center">
+                    
+                    <div class="w-full md:w-1/4 flex items-center gap-4">
+                        <div class="h-12 w-12 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 text-slate-600 font-bold">
+                            BS
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900">Budi Santoso</h3>
+                            <span class="text-xs font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Anggota Sekbid 4</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-2/4 grid grid-cols-1 gap-3">
+                        
+                        <div class="flex flex-wrap gap-2">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium bg-cyan-50 text-cyan-700 border border-cyan-100">
+                                <i class="ph-fill ph-paint-brush"></i> Kreatif Visual
+                            </span>
+                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium bg-red-50 text-red-700 border border-red-100">
+                                <i class="ph-fill ph-clock-warning"></i> Sering Terlambat
+                            </span>
+                        </div>
+
+                        <div class="text-sm text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-100">
+                            <span class="font-semibold text-slate-800 text-xs uppercase mb-1 block">Track Record:</span>
+                            "Ide dekorasi di <span class="font-medium text-slate-900">Hari Guru</span> sangat brilian, tapi kordinasi tim lemah. Sering menghilang saat *loading barang* dan miskomunikasi dengan logistik. Butuh pendampingan manajemen waktu."
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-1/4 flex flex-row md:flex-col items-center md:items-end justify-between gap-2 mt-2 md:mt-0">
+                        <div class="text-right">
+                            <span class="block text-xs text-slate-400 mb-1">Rekomendasi Pelantikan</span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200">
+                                <i class="ph-fill ph-warning-circle"></i> Butuh Observasi
+                            </span>
+                        </div>
+                        <button class="text-sm font-medium text-blue-600 hover:text-blue-800 underline decoration-blue-200 hover:decoration-blue-800 underline-offset-4">
+                            Lihat Jurnal Kegiatan >
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition p-5 relative overflow-hidden">
+                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-400"></div>
+
+                <div class="flex flex-col md:flex-row gap-6 items-start md:items-center">
+                    
+                    <div class="w-full md:w-1/4 flex items-center gap-4">
+                        <div class="h-12 w-12 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 text-slate-600 font-bold">
+                            CK
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900">Citra Kirana</h3>
+                            <span class="text-xs font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Sekretaris II</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-2/4 grid grid-cols-1 gap-3">
+                        
+                        <div class="flex flex-wrap gap-2">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
+                                <i class="ph-fill ph-file-text"></i> Administrasi Rapi
+                            </span>
+                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
+                                <i class="ph-fill ph-users-three"></i> Pendengar Baik
+                            </span>
+                        </div>
+
+                        <div class="text-sm text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-100">
+                            <span class="font-semibold text-slate-800 text-xs uppercase mb-1 block">Track Record:</span>
+                            "Konsisten dalam notulensi rapat rutin. Di lapangan cenderung pasif dan menunggu instruksi, namun sangat teliti saat mengurus surat perizinan eksternal. Perlu didorong untuk berani mengambil keputusan."
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-1/4 flex flex-row md:flex-col items-center md:items-end justify-between gap-2 mt-2 md:mt-0">
+                        <div class="text-right">
+                            <span class="block text-xs text-slate-400 mb-1">Rekomendasi Pelantikan</span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-200">
+                                <i class="ph-fill ph-info"></i> Perlu Tantangan
+                            </span>
+                        </div>
+                        <button class="text-sm font-medium text-blue-600 hover:text-blue-800 underline decoration-blue-200 hover:decoration-blue-800 underline-offset-4">
+                            Lihat Jurnal Kegiatan >
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="mt-8 flex justify-center">
+             <button class="text-sm text-slate-500 hover:text-slate-800 font-medium">Muat Lebih Banyak...</button>
+        </div>
+
     </div>
-  </main>
 
-  <script type="module" src="app.js"></script>
 </body>
 </html>
